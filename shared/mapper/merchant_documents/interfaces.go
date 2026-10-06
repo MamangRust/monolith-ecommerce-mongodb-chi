@@ -1,0 +1,27 @@
+package merchantdocumentsapimapper
+
+import (
+	pbmerchants_document "github.com/MamangRust/monolith-ecommerce-pb/merchants_document"
+	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+)
+
+type MerchantDocumentBaseResponseMapper interface {
+	MapMerchantDocument(doc *pbmerchants_document.MerchantDocument) *response.MerchantDocumentResponse
+	MapMerchantDocuments(docs []*pbmerchants_document.MerchantDocument) []*response.MerchantDocumentResponse
+	ToApiResponseMerchantDocument(doc *pbmerchants_document.ApiResponseMerchantDocument) *response.ApiResponseMerchantDocument
+}
+
+type MerchantDocumentQueryResponseMapper interface {
+	MerchantDocumentBaseResponseMapper
+	ToApiResponsesMerchantDocument(docs *pbmerchants_document.ApiResponsesMerchantDocument) *response.ApiResponsesMerchantDocument
+	ToApiResponsePaginationMerchantDocument(docs *pbmerchants_document.ApiResponsePaginationMerchantDocument) *response.ApiResponsePaginationMerchantDocument
+	ToApiResponsePaginationMerchantDocumentDeleteAt(docs *pbmerchants_document.ApiResponsePaginationMerchantDocumentAt) *response.ApiResponsePaginationMerchantDocumentDeleteAt
+}
+
+type MerchantDocumentCommandResponseMapper interface {
+	MerchantDocumentBaseResponseMapper
+	MapMerchantDocumentDeletedAt(doc *pbmerchants_document.MerchantDocumentDeleteAt) *response.MerchantDocumentResponseDeleteAt
+	MapMerchantDocumentsDeletedAt(docs []*pbmerchants_document.MerchantDocumentDeleteAt) []*response.MerchantDocumentResponseDeleteAt
+	ToApiResponseMerchantDocumentAll(resp *pbmerchants_document.ApiResponseMerchantDocumentAll) *response.ApiResponseMerchantDocumentAll
+	ToApiResponseMerchantDocumentDeleteAt(resp *pbmerchants_document.ApiResponseMerchantDocumentDelete) *response.ApiResponseMerchantDocumentDelete
+}

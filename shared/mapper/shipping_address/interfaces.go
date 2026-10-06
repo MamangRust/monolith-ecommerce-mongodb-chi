@@ -1,0 +1,29 @@
+package shippingaddressapimapper
+
+import (
+	pbshipping_addresses "github.com/MamangRust/monolith-ecommerce-pb/shipping_addresses"
+	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+)
+
+type ShippingAddressBaseResponseMapper interface {
+	ToResponseShippingAddress(pbResponse *pbshipping_addresses.ShippingResponse) *response.ShippingAddressResponse
+	ToResponsesShippingAddress(pbResponses []*pbshipping_addresses.ShippingResponse) []*response.ShippingAddressResponse
+}
+
+type ShippingAddressQueryResponseMapper interface {
+	ShippingAddressBaseResponseMapper
+	ToApiResponseShippingAddress(pbResponse *pbshipping_addresses.ApiResponseShipping) *response.ApiResponseShippingAddress
+	ToApiResponsesShippingAddress(pbResponse *pbshipping_addresses.ApiResponsesShipping) *response.ApiResponsesShippingAddress
+	ToApiResponsePaginationShippingAddress(pbResponse *pbshipping_addresses.ApiResponsePaginationShipping) *response.ApiResponsePaginationShippingAddress
+	ToApiResponsePaginationShippingAddressDeleteAt(pbResponse *pbshipping_addresses.ApiResponsePaginationShippingDeleteAt) *response.ApiResponsePaginationShippingAddressDeleteAt
+}
+
+type ShippingAddressCommandResponseMapper interface {
+	ShippingAddressBaseResponseMapper
+	ToResponseShippingAddressDeleteAt(pbResponse *pbshipping_addresses.ShippingResponseDeleteAt) *response.ShippingAddressResponseDeleteAt
+	ToResponsesShippingAddressDeleteAt(pbResponses []*pbshipping_addresses.ShippingResponseDeleteAt) []*response.ShippingAddressResponseDeleteAt
+	ToApiResponseShippingAddressDeleteAt(pbResponse *pbshipping_addresses.ApiResponseShippingDeleteAt) *response.ApiResponseShippingAddressDeleteAt
+	ToApiResponseShippingAddressDelete(pbResponse *pbshipping_addresses.ApiResponseShippingDelete) *response.ApiResponseShippingAddressDelete
+	ToApiResponseShippingAddressAll(pbResponse *pbshipping_addresses.ApiResponseShippingAll) *response.ApiResponseShippingAddressAll
+	ToApiResponsePaginationShippingAddressDeleteAt(pbResponse *pbshipping_addresses.ApiResponsePaginationShippingDeleteAt) *response.ApiResponsePaginationShippingAddressDeleteAt
+}

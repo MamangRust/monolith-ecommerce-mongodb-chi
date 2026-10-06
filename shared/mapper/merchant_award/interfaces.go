@@ -1,0 +1,26 @@
+package merchantawardapimapper
+
+import (
+	pbmerchants_award "github.com/MamangRust/monolith-ecommerce-pb/merchants_award"
+	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+)
+
+type MerchantAwardBaseResponseMapper interface {
+	ToResponseMerchantAward(MerchantAward *pbmerchants_award.MerchantAwardResponse) *response.MerchantAwardResponse
+	ToResponsesMerchantAward(MerchantAwards []*pbmerchants_award.MerchantAwardResponse) []*response.MerchantAwardResponse
+	ToApiResponseMerchantAward(pbResponse *pbmerchants_award.ApiResponseMerchantAward) *response.ApiResponseMerchantAward
+}
+
+type MerchantAwardQueryResponseMapper interface {
+	MerchantAwardBaseResponseMapper
+	ToApiResponsesMerchantAward(pbResponse *pbmerchants_award.ApiResponsesMerchantAward) *response.ApiResponsesMerchantAward
+	ToApiResponsePaginationMerchantAward(pbResponse *pbmerchants_award.ApiResponsePaginationMerchantAward) *response.ApiResponsePaginationMerchantAward
+	ToApiResponsePaginationMerchantAwardDeleteAt(pbResponse *pbmerchants_award.ApiResponsePaginationMerchantAwardDeleteAt) *response.ApiResponsePaginationMerchantAwardDeleteAt
+}
+
+type MerchantAwardCommandResponseMapper interface {
+	MerchantAwardBaseResponseMapper
+	ToResponseMerchantAwardDeleteAt(MerchantAward *pbmerchants_award.MerchantAwardResponseDeleteAt) *response.MerchantAwardResponseDeleteAt
+	ToResponsesMerchantAwardDeleteAt(MerchantAwards []*pbmerchants_award.MerchantAwardResponseDeleteAt) []*response.MerchantAwardResponseDeleteAt
+	ToApiResponseMerchantAwardDeleteAt(pbResponse *pbmerchants_award.ApiResponseMerchantAwardDeleteAt) *response.ApiResponseMerchantAwardDeleteAt
+}

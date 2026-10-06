@@ -1,0 +1,26 @@
+package merchantpolicyapimapper
+
+import (
+	pbmerchants_policy "github.com/MamangRust/monolith-ecommerce-pb/merchants_policy"
+	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+)
+
+type MerchantPolicyBaseResponseMapper interface {
+	ToResponseMerchantPolicy(merchant *pbmerchants_policy.MerchantPoliciesResponse) *response.MerchantPoliciesResponse
+	ToResponsesMerchantPolicy(merchants []*pbmerchants_policy.MerchantPoliciesResponse) []*response.MerchantPoliciesResponse
+	ToApiResponseMerchantPolicies(pbResponse *pbmerchants_policy.ApiResponseMerchantPolicies) *response.ApiResponseMerchantPolicies
+}
+
+type MerchantPolicyQueryResponseMapper interface {
+	MerchantPolicyBaseResponseMapper
+	ToApiResponsesMerchantPolicies(pbResponse *pbmerchants_policy.ApiResponsesMerchantPolicies) *response.ApiResponsesMerchantPolicies
+	ToApiResponsePaginationMerchantPolicies(pbResponse *pbmerchants_policy.ApiResponsePaginationMerchantPolicies) *response.ApiResponsePaginationMerchantPolicies
+	ToApiResponsePaginationMerchantPoliciesDeleteAt(pbResponse *pbmerchants_policy.ApiResponsePaginationMerchantPoliciesDeleteAt) *response.ApiResponsePaginationMerchantPoliciesDeleteAt
+}
+
+type MerchantPolicyCommandResponseMapper interface {
+	MerchantPolicyBaseResponseMapper
+	ToResponseMerchantPolicyDeleteAt(merchant *pbmerchants_policy.MerchantPoliciesResponseDeleteAt) *response.MerchantPoliciesResponseDeleteAt
+	ToResponsesMerchantPolicyDeleteAt(merchants []*pbmerchants_policy.MerchantPoliciesResponseDeleteAt) []*response.MerchantPoliciesResponseDeleteAt
+	ToApiResponseMerchantPoliciesDeleteAt(pbResponse *pbmerchants_policy.ApiResponseMerchantPoliciesDeleteAt) *response.ApiResponseMerchantPoliciesDeleteAt
+}

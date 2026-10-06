@@ -1,0 +1,26 @@
+package merchantbusinessapimapper
+
+import (
+	pbmerchants_business "github.com/MamangRust/monolith-ecommerce-pb/merchants_business"
+	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+)
+
+type MerchantBusinessBaseResponseMapper interface {
+	ToResponseMerchantBusiness(merchant *pbmerchants_business.MerchantBusinessResponse) *response.MerchantBusinessResponse
+	ToResponsesMerchantBusiness(merchants []*pbmerchants_business.MerchantBusinessResponse) []*response.MerchantBusinessResponse
+	ToApiResponseMerchantBusiness(pbResponse *pbmerchants_business.ApiResponseMerchantBusiness) *response.ApiResponseMerchantBusiness
+}
+
+type MerchantBusinessQueryResponseMapper interface {
+	MerchantBusinessBaseResponseMapper
+	ToApiResponsesMerchantBusiness(pbResponse *pbmerchants_business.ApiResponsesMerchantBusiness) *response.ApiResponsesMerchantBusiness
+	ToApiResponsePaginationMerchantBusiness(pbResponse *pbmerchants_business.ApiResponsePaginationMerchantBusiness) *response.ApiResponsePaginationMerchantBusiness
+	ToApiResponsePaginationMerchantBusinessDeleteAt(pbResponse *pbmerchants_business.ApiResponsePaginationMerchantBusinessDeleteAt) *response.ApiResponsePaginationMerchantBusinessDeleteAt
+}
+
+type MerchantBusinessCommandResponseMapper interface {
+	MerchantBusinessBaseResponseMapper
+	ToResponseMerchantBusinessDeleteAt(merchant *pbmerchants_business.MerchantBusinessResponseDeleteAt) *response.MerchantBusinessResponseDeleteAt
+	ToResponsesMerchantBusinessDeleteAt(merchants []*pbmerchants_business.MerchantBusinessResponseDeleteAt) []*response.MerchantBusinessResponseDeleteAt
+	ToApiResponseMerchantBusinessDeleteAt(pbResponse *pbmerchants_business.ApiResponseMerchantBusinessDeleteAt) *response.ApiResponseMerchantBusinessDeleteAt
+}

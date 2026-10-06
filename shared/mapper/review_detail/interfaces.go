@@ -1,0 +1,27 @@
+package reviewdetailapimapper
+
+import (
+	pbreviews_detail "github.com/MamangRust/monolith-ecommerce-pb/reviews_detail"
+	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+)
+
+type ReviewDetailBaseResponseMapper interface {
+	ToResponseReviewDetail(reviewDetail *pbreviews_detail.ReviewDetailsResponse) *response.ReviewDetailsResponse
+	ToResponsesReviewDetail(ReviewDetails []*pbreviews_detail.ReviewDetailsResponse) []*response.ReviewDetailsResponse
+}
+
+type ReviewDetailQueryResponseMapper interface {
+	ReviewDetailBaseResponseMapper
+	ToApiResponseReviewDetail(pbResponse *pbreviews_detail.ApiResponseReviewDetail) *response.ApiResponseReviewDetail
+	ToApiResponsesReviewDetail(pbResponse *pbreviews_detail.ApiResponsesReviewDetails) *response.ApiResponsesReviewDetails
+	ToApiResponsePaginationReviewDetail(pbResponse *pbreviews_detail.ApiResponsePaginationReviewDetails) *response.ApiResponsePaginationReviewDetails
+	ToApiResponsePaginationReviewDetailDeleteAt(pbResponse *pbreviews_detail.ApiResponsePaginationReviewDetailsDeleteAt) *response.ApiResponsePaginationReviewDetailsDeleteAt
+}
+
+type ReviewDetailCommandResponseMapper interface {
+	ReviewDetailBaseResponseMapper
+	ToResponseReviewDetailDeleteAt(reviewDetail *pbreviews_detail.ReviewDetailsResponseDeleteAt) *response.ReviewDetailsResponseDeleteAt
+	ToResponsesReviewDetailDeleteAt(ReviewDetails []*pbreviews_detail.ReviewDetailsResponseDeleteAt) []*response.ReviewDetailsResponseDeleteAt
+	ToApiResponseReviewDetailDeleteAt(pbResponse *pbreviews_detail.ApiResponseReviewDetailDeleteAt) *response.ApiResponseReviewDetailDeleteAt
+	ToApiResponsePaginationReviewDetailDeleteAt(pbResponse *pbreviews_detail.ApiResponsePaginationReviewDetailsDeleteAt) *response.ApiResponsePaginationReviewDetailsDeleteAt
+}

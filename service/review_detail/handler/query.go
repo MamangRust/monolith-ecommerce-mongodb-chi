@@ -1,0 +1,229 @@
+package handler
+
+import (
+	"context"
+	"math"
+
+	"github.com/MamangRust/monolith-ecommerce-grpc-review-detail/service"
+	pbcommon "github.com/MamangRust/monolith-ecommerce-pb/common"
+	pbreviews "github.com/MamangRust/monolith-ecommerce-pb/reviews"
+	pbreviews_detail "github.com/MamangRust/monolith-ecommerce-pb/reviews_detail"
+	"github.com/MamangRust/monolith-ecommerce-pkg/logger"
+	"github.com/MamangRust/monolith-ecommerce-shared/domain/requests"
+	"github.com/MamangRust/monolith-ecommerce-shared/errors"
+	reviewdetail_errors "github.com/MamangRust/monolith-ecommerce-shared/errors/review_detail"
+	"google.golang.org/protobuf/types/known/wrapperspb"
+)
+
+type reviewDetailQueryHandler struct {
+	pbreviews_detail.UnimplementedReviewDetailQueryServiceServer
+	service service.ReviewDetailQueryService
+	logger  logger.LoggerInterface
+}
+
+func NewReviewDetailQueryHandler(service service.ReviewDetailQueryService, logger logger.LoggerInterface) pbreviews_detail.ReviewDetailQueryServiceServer {
+	return &reviewDetailQueryHandler{
+		service: service,
+		logger:  logger,
+	}
+}
+
+func (s *reviewDetailQueryHandler) FindAll(ctx context.Context, request *pbreviews.FindAllReviewRequest) (*pbreviews_detail.ApiResponsePaginationReviewDetails, error) {
+	page := int(request.GetPage())
+	pageSize := int(request.GetPageSize())
+	search := request.GetSearch()
+
+	if page <= 0 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = 10
+	}
+
+	reqService := requests.FindAllReview{
+		Page:     page,
+		PageSize: pageSize,
+		Search:   search,
+	}
+
+	reviewDetails, totalRecords, err := s.service.FindAll(ctx, &reqService)
+	if err != nil {
+		return nil, errors.ToGrpcError(err)
+	}
+
+	protoReviewDetails := make([]*pbreviews_detail.ReviewDetailsResponse, len(reviewDetails))
+	for i, reviewDetail := range reviewDetails {
+		protoReviewDetails[i] = &pbreviews_detail.ReviewDetailsResponse{
+			Id:        int32(reviewDetail.ReviewDetailID),
+			ReviewId:  int32(reviewDetail.ReviewID),
+			Type:      reviewDetail.Type,
+			Url:       reviewDetail.Url,
+			Caption:   *reviewDetail.Caption,
+			CreatedAt: reviewDetail.CreatedAt.Format("2006-01-02"),
+			UpdatedAt: reviewDetail.UpdatedAt.Format("2006-01-02"),
+		}
+	}
+
+	totalPages := int(math.Ceil(float64(*totalRecords) / float64(pageSize)))
+
+	paginationMeta := &pbcommon.PaginationMeta{
+		CurrentPage:  int32(page),
+		PageSize:     int32(pageSize),
+		TotalPages:   int32(totalPages),
+		TotalRecords: int32(*totalRecords),
+	}
+
+	return &pbreviews_detail.ApiResponsePaginationReviewDetails{
+		Status:     "success",
+		Message:    "Successfully fetched review details",
+		Data:       protoReviewDetails,
+		Pagination: paginationMeta,
+	}, nil
+}
+
+func (s *reviewDetailQueryHandler) FindById(ctx context.Context, request *pbreviews_detail.FindByIdReviewDetailRequest) (*pbreviews_detail.ApiResponseReviewDetail, error) {
+	id := int(request.GetId())
+
+	if id == 0 {
+		return nil, reviewdetail_errors.ErrGrpcInvalidID
+	}
+
+	reviewDetail, err := s.service.FindByID(ctx, id)
+	if err != nil {
+		return nil, errors.ToGrpcError(err)
+	}
+
+	protoReviewDetail := &pbreviews_detail.ReviewDetailsResponse{
+		Id:        int32(reviewDetail.ReviewDetailID),
+		ReviewId:  int32(reviewDetail.ReviewID),
+		Type:      reviewDetail.Type,
+		Url:       reviewDetail.Url,
+		Caption:   *reviewDetail.Caption,
+		CreatedAt: reviewDetail.CreatedAt.Format("2006-01-02"),
+		UpdatedAt: reviewDetail.UpdatedAt.Format("2006-01-02"),
+	}
+
+	return &pbreviews_detail.ApiResponseReviewDetail{
+		Status:  "success",
+		Message: "Successfully fetched review detail",
+		Data:    protoReviewDetail,
+	}, nil
+}
+
+func (s *reviewDetailQueryHandler) FindByActive(ctx context.Context, request *pbreviews.FindAllReviewRequest) (*pbreviews_detail.ApiResponsePaginationReviewDetailsDeleteAt, error) {
+	page := int(request.GetPage())
+	pageSize := int(request.GetPageSize())
+	search := request.GetSearch()
+
+	if page <= 0 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = 10
+	}
+
+	reqService := requests.FindAllReview{
+		Page:     page,
+		PageSize: pageSize,
+		Search:   search,
+	}
+
+	reviewDetails, totalRecords, err := s.service.FindActive(ctx, &reqService)
+	if err != nil {
+		return nil, errors.ToGrpcError(err)
+	}
+
+	protoReviewDetails := make([]*pbreviews_detail.ReviewDetailsResponseDeleteAt, len(reviewDetails))
+	for i, reviewDetail := range reviewDetails {
+		var deletedAt string
+		if reviewDetail.DeletedAt != nil {
+			deletedAt = reviewDetail.DeletedAt.Format("2006-01-02")
+		}
+
+		protoReviewDetails[i] = &pbreviews_detail.ReviewDetailsResponseDeleteAt{
+			Id:        int32(reviewDetail.ReviewDetailID),
+			ReviewId:  int32(reviewDetail.ReviewID),
+			Type:      reviewDetail.Type,
+			Url:       reviewDetail.Url,
+			Caption:   *reviewDetail.Caption,
+			CreatedAt: reviewDetail.CreatedAt.Format("2006-01-02"),
+			UpdatedAt: reviewDetail.UpdatedAt.Format("2006-01-02"),
+			DeletedAt: &wrapperspb.StringValue{Value: deletedAt},
+		}
+	}
+
+	totalPages := int(math.Ceil(float64(*totalRecords) / float64(pageSize)))
+
+	paginationMeta := &pbcommon.PaginationMeta{
+		CurrentPage:  int32(page),
+		PageSize:     int32(pageSize),
+		TotalPages:   int32(totalPages),
+		TotalRecords: int32(*totalRecords),
+	}
+
+	return &pbreviews_detail.ApiResponsePaginationReviewDetailsDeleteAt{
+		Status:     "success",
+		Message:    "Successfully fetched active review details",
+		Data:       protoReviewDetails,
+		Pagination: paginationMeta,
+	}, nil
+}
+
+func (s *reviewDetailQueryHandler) FindByTrashed(ctx context.Context, request *pbreviews.FindAllReviewRequest) (*pbreviews_detail.ApiResponsePaginationReviewDetailsDeleteAt, error) {
+	page := int(request.GetPage())
+	pageSize := int(request.GetPageSize())
+	search := request.GetSearch()
+
+	if page <= 0 {
+		page = 1
+	}
+	if pageSize <= 0 {
+		pageSize = 10
+	}
+
+	reqService := requests.FindAllReview{
+		Page:     page,
+		PageSize: pageSize,
+		Search:   search,
+	}
+
+	reviewDetails, totalRecords, err := s.service.FindTrashed(ctx, &reqService)
+	if err != nil {
+		return nil, errors.ToGrpcError(err)
+	}
+
+	protoReviewDetails := make([]*pbreviews_detail.ReviewDetailsResponseDeleteAt, len(reviewDetails))
+	for i, reviewDetail := range reviewDetails {
+		var deletedAt string
+		if reviewDetail.DeletedAt != nil {
+			deletedAt = reviewDetail.DeletedAt.Format("2006-01-02")
+		}
+
+		protoReviewDetails[i] = &pbreviews_detail.ReviewDetailsResponseDeleteAt{
+			Id:        int32(reviewDetail.ReviewDetailID),
+			ReviewId:  int32(reviewDetail.ReviewID),
+			Type:      reviewDetail.Type,
+			Url:       reviewDetail.Url,
+			Caption:   *reviewDetail.Caption,
+			CreatedAt: reviewDetail.CreatedAt.Format("2006-01-02"),
+			UpdatedAt: reviewDetail.UpdatedAt.Format("2006-01-02"),
+			DeletedAt: &wrapperspb.StringValue{Value: deletedAt},
+		}
+	}
+
+	totalPages := int(math.Ceil(float64(*totalRecords) / float64(pageSize)))
+
+	paginationMeta := &pbcommon.PaginationMeta{
+		CurrentPage:  int32(page),
+		PageSize:     int32(pageSize),
+		TotalPages:   int32(totalPages),
+		TotalRecords: int32(*totalRecords),
+	}
+
+	return &pbreviews_detail.ApiResponsePaginationReviewDetailsDeleteAt{
+		Status:     "success",
+		Message:    "Successfully fetched trashed review details",
+		Data:       protoReviewDetails,
+		Pagination: paginationMeta,
+	}, nil
+}

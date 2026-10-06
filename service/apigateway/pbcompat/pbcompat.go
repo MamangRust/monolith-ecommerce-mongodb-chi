@@ -1,0 +1,332 @@
+package pbcompat
+
+// Package pbcompat re-exports the split per-service pb packages under the
+// flat names the handlers were written against (former shared/pb layout),
+// so handlers can keep referencing every type as pb.X.
+import (
+	rootpb "github.com/MamangRust/monolith-ecommerce-pb"
+	bannerspb "github.com/MamangRust/monolith-ecommerce-pb/banners"
+	cartspb "github.com/MamangRust/monolith-ecommerce-pb/carts"
+	categoriespb "github.com/MamangRust/monolith-ecommerce-pb/categories"
+	merchantspb "github.com/MamangRust/monolith-ecommerce-pb/merchants"
+	merchants_awardpb "github.com/MamangRust/monolith-ecommerce-pb/merchants_award"
+	merchants_businesspb "github.com/MamangRust/monolith-ecommerce-pb/merchants_business"
+	merchants_detailpb "github.com/MamangRust/monolith-ecommerce-pb/merchants_detail"
+	merchants_documentpb "github.com/MamangRust/monolith-ecommerce-pb/merchants_document"
+	merchants_policypb "github.com/MamangRust/monolith-ecommerce-pb/merchants_policy"
+	merchants_social_linkpb "github.com/MamangRust/monolith-ecommerce-pb/merchants_social_link"
+	order_itemspb "github.com/MamangRust/monolith-ecommerce-pb/order_items"
+	orderspb "github.com/MamangRust/monolith-ecommerce-pb/orders"
+	productspb "github.com/MamangRust/monolith-ecommerce-pb/products"
+	reviewspb "github.com/MamangRust/monolith-ecommerce-pb/reviews"
+	reviews_detailpb "github.com/MamangRust/monolith-ecommerce-pb/reviews_detail"
+	rolespb "github.com/MamangRust/monolith-ecommerce-pb/roles"
+	shipping_addressespb "github.com/MamangRust/monolith-ecommerce-pb/shipping_addresses"
+	sliderspb "github.com/MamangRust/monolith-ecommerce-pb/sliders"
+	transactionspb "github.com/MamangRust/monolith-ecommerce-pb/transactions"
+	userspb "github.com/MamangRust/monolith-ecommerce-pb/users"
+	"google.golang.org/grpc"
+)
+
+// rootpb
+type AuthServiceClient = rootpb.AuthServiceClient
+type GetMeRequest = rootpb.GetMeRequest
+type LoginRequest = rootpb.LoginRequest
+
+var NewAuthServiceClient = rootpb.NewAuthServiceClient
+
+type RefreshTokenRequest = rootpb.RefreshTokenRequest
+type RegisterRequest = rootpb.RegisterRequest
+
+// bannerspb
+type BannerCommandServiceClient = bannerspb.BannerCommandServiceClient
+type BannerQueryServiceClient = bannerspb.BannerQueryServiceClient
+type CreateBannerRequest = bannerspb.CreateBannerRequest
+type FindAllBannerRequest = bannerspb.FindAllBannerRequest
+type FindByIdBannerRequest = bannerspb.FindByIdBannerRequest
+
+var NewBannerCommandServiceClient = bannerspb.NewBannerCommandServiceClient
+var NewBannerQueryServiceClient = bannerspb.NewBannerQueryServiceClient
+
+type UpdateBannerRequest = bannerspb.UpdateBannerRequest
+
+// cartspb
+type CartCommandServiceClient = cartspb.CartCommandServiceClient
+type CartQueryServiceClient = cartspb.CartQueryServiceClient
+type CreateCartRequest = cartspb.CreateCartRequest
+type DeleteAllCartRequest = cartspb.DeleteAllCartRequest
+type DeleteCartRequest = cartspb.DeleteCartRequest
+type FindAllCartRequest = cartspb.FindAllCartRequest
+
+var NewCartCommandServiceClient = cartspb.NewCartCommandServiceClient
+var NewCartQueryServiceClient = cartspb.NewCartQueryServiceClient
+
+// categoriespb
+type CategoryCommandServiceClient = categoriespb.CategoryCommandServiceClient
+type CategoryQueryServiceClient = categoriespb.CategoryQueryServiceClient
+type CategoryStatsByIdServiceClient = categoriespb.CategoryStatsByIdServiceClient
+type CategoryStatsByMerchantServiceClient = categoriespb.CategoryStatsByMerchantServiceClient
+type CategoryStatsServiceClient = categoriespb.CategoryStatsServiceClient
+type CreateCategoryRequest = categoriespb.CreateCategoryRequest
+type FindAllCategoryRequest = categoriespb.FindAllCategoryRequest
+type FindByIdCategoryRequest = categoriespb.FindByIdCategoryRequest
+type FindYearCategory = categoriespb.FindYearCategory
+type FindYearCategoryById = categoriespb.FindYearCategoryById
+type FindYearCategoryByMerchant = categoriespb.FindYearCategoryByMerchant
+type FindYearMonthTotalPriceById = categoriespb.FindYearMonthTotalPriceById
+type FindYearMonthTotalPriceByMerchant = categoriespb.FindYearMonthTotalPriceByMerchant
+type FindYearMonthTotalPrices = categoriespb.FindYearMonthTotalPrices
+type FindYearTotalPriceById = categoriespb.FindYearTotalPriceById
+type FindYearTotalPriceByMerchant = categoriespb.FindYearTotalPriceByMerchant
+type FindYearTotalPrices = categoriespb.FindYearTotalPrices
+
+var NewCategoryCommandServiceClient = categoriespb.NewCategoryCommandServiceClient
+var NewCategoryQueryServiceClient = categoriespb.NewCategoryQueryServiceClient
+var NewCategoryStatsByIdServiceClient = categoriespb.NewCategoryStatsByIdServiceClient
+var NewCategoryStatsByMerchantServiceClient = categoriespb.NewCategoryStatsByMerchantServiceClient
+var NewCategoryStatsServiceClient = categoriespb.NewCategoryStatsServiceClient
+
+type UpdateCategoryRequest = categoriespb.UpdateCategoryRequest
+
+// merchantspb
+type CreateMerchantRequest = merchantspb.CreateMerchantRequest
+type FindAllMerchantRequest = merchantspb.FindAllMerchantRequest
+type FindByIdMerchantRequest = merchantspb.FindByIdMerchantRequest
+type MerchantCommandServiceClient = merchantspb.MerchantCommandServiceClient
+type MerchantQueryServiceClient = merchantspb.MerchantQueryServiceClient
+
+var NewMerchantCommandServiceClient = merchantspb.NewMerchantCommandServiceClient
+var NewMerchantQueryServiceClient = merchantspb.NewMerchantQueryServiceClient
+
+type UpdateMerchantRequest = merchantspb.UpdateMerchantRequest
+
+// merchants_awardpb
+type CreateMerchantAwardRequest = merchants_awardpb.CreateMerchantAwardRequest
+type FindByIdMerchantAwardRequest = merchants_awardpb.FindByIdMerchantAwardRequest
+type MerchantAwardCommandServiceClient = merchants_awardpb.MerchantAwardCommandServiceClient
+type MerchantAwardQueryServiceClient = merchants_awardpb.MerchantAwardQueryServiceClient
+
+var NewMerchantAwardCommandServiceClient = merchants_awardpb.NewMerchantAwardCommandServiceClient
+var NewMerchantAwardQueryServiceClient = merchants_awardpb.NewMerchantAwardQueryServiceClient
+
+type UpdateMerchantAwardRequest = merchants_awardpb.UpdateMerchantAwardRequest
+
+// merchants_businesspb
+type CreateMerchantBusinessRequest = merchants_businesspb.CreateMerchantBusinessRequest
+type FindByIdMerchantBusinessRequest = merchants_businesspb.FindByIdMerchantBusinessRequest
+type MerchantBusinessCommandServiceClient = merchants_businesspb.MerchantBusinessCommandServiceClient
+type MerchantBusinessQueryServiceClient = merchants_businesspb.MerchantBusinessQueryServiceClient
+
+var NewMerchantBusinessCommandServiceClient = merchants_businesspb.NewMerchantBusinessCommandServiceClient
+var NewMerchantBusinessQueryServiceClient = merchants_businesspb.NewMerchantBusinessQueryServiceClient
+
+type UpdateMerchantBusinessRequest = merchants_businesspb.UpdateMerchantBusinessRequest
+
+// merchants_detailpb
+type CreateMerchantDetailRequest = merchants_detailpb.CreateMerchantDetailRequest
+type FindByIdMerchantDetailRequest = merchants_detailpb.FindByIdMerchantDetailRequest
+type MerchantDetailCommandServiceClient = merchants_detailpb.MerchantDetailCommandServiceClient
+type MerchantDetailQueryServiceClient = merchants_detailpb.MerchantDetailQueryServiceClient
+
+var NewMerchantDetailCommandServiceClient = merchants_detailpb.NewMerchantDetailCommandServiceClient
+var NewMerchantDetailQueryServiceClient = merchants_detailpb.NewMerchantDetailQueryServiceClient
+
+type UpdateMerchantDetailRequest = merchants_detailpb.UpdateMerchantDetailRequest
+
+// merchants_documentpb
+type CreateMerchantDocumentRequest = merchants_documentpb.CreateMerchantDocumentRequest
+type DeleteMerchantDocumentPermanentRequest = merchants_documentpb.DeleteMerchantDocumentPermanentRequest
+type FindAllMerchantDocumentsRequest = merchants_documentpb.FindAllMerchantDocumentsRequest
+type FindMerchantDocumentByIdRequest = merchants_documentpb.FindMerchantDocumentByIdRequest
+type MerchantDocumentCommandServiceClient = merchants_documentpb.MerchantDocumentCommandServiceClient
+type MerchantDocumentQueryServiceClient = merchants_documentpb.MerchantDocumentQueryServiceClient
+
+var NewMerchantDocumentCommandServiceClient = merchants_documentpb.NewMerchantDocumentCommandServiceClient
+var NewMerchantDocumentQueryServiceClient = merchants_documentpb.NewMerchantDocumentQueryServiceClient
+
+type RestoreMerchantDocumentRequest = merchants_documentpb.RestoreMerchantDocumentRequest
+type TrashedMerchantDocumentRequest = merchants_documentpb.TrashedMerchantDocumentRequest
+type UpdateMerchantDocumentRequest = merchants_documentpb.UpdateMerchantDocumentRequest
+type UpdateMerchantDocumentStatusRequest = merchants_documentpb.UpdateMerchantDocumentStatusRequest
+
+// merchants_policypb
+type CreateMerchantPoliciesRequest = merchants_policypb.CreateMerchantPoliciesRequest
+type FindByIdMerchantPoliciesRequest = merchants_policypb.FindByIdMerchantPoliciesRequest
+type MerchantPolicyCommandServiceClient = merchants_policypb.MerchantPolicyCommandServiceClient
+type MerchantPolicyQueryServiceClient = merchants_policypb.MerchantPolicyQueryServiceClient
+
+var NewMerchantPolicyCommandServiceClient = merchants_policypb.NewMerchantPolicyCommandServiceClient
+var NewMerchantPolicyQueryServiceClient = merchants_policypb.NewMerchantPolicyQueryServiceClient
+
+type UpdateMerchantPoliciesRequest = merchants_policypb.UpdateMerchantPoliciesRequest
+
+// merchants_social_linkpb
+type CreateMerchantSocialRequest = merchants_social_linkpb.CreateMerchantSocialRequest
+type MerchantSocialCommandServiceClient = merchants_social_linkpb.MerchantSocialCommandServiceClient
+
+var NewMerchantSocialCommandServiceClient = merchants_social_linkpb.NewMerchantSocialCommandServiceClient
+
+type UpdateMerchantSocialRequest = merchants_social_linkpb.UpdateMerchantSocialRequest
+
+// order_itemspb
+type FindAllOrderItemRequest = order_itemspb.FindAllOrderItemRequest
+type FindByIdOrderItemRequest = order_itemspb.FindByIdOrderItemRequest
+
+var NewOrderItemCommandServiceClient = order_itemspb.NewOrderItemCommandServiceClient
+var NewOrderItemQueryServiceClient = order_itemspb.NewOrderItemQueryServiceClient
+
+type OrderItemCommandServiceClient = order_itemspb.OrderItemCommandServiceClient
+type OrderItemQueryServiceClient = order_itemspb.OrderItemQueryServiceClient
+
+// orderspb
+type CreateOrderItemRequest = orderspb.CreateOrderItemRequest
+type CreateOrderRequest = orderspb.CreateOrderRequest
+type FindAllOrderRequest = orderspb.FindAllOrderRequest
+type FindByIdOrderRequest = orderspb.FindByIdOrderRequest
+type FindYearMonthTotalRevenue = orderspb.FindYearMonthTotalRevenue
+type FindYearMonthTotalRevenueByMerchant = orderspb.FindYearMonthTotalRevenueByMerchant
+type FindYearOrder = orderspb.FindYearOrder
+type FindYearOrderByMerchant = orderspb.FindYearOrderByMerchant
+type FindYearTotalRevenue = orderspb.FindYearTotalRevenue
+type FindYearTotalRevenueByMerchant = orderspb.FindYearTotalRevenueByMerchant
+
+var NewOrderCommandServiceClient = orderspb.NewOrderCommandServiceClient
+var NewOrderQueryServiceClient = orderspb.NewOrderQueryServiceClient
+
+type OrderCommandServiceClient = orderspb.OrderCommandServiceClient
+type OrderQueryServiceClient = orderspb.OrderQueryServiceClient
+
+// OrderStatsServiceClient merges the split stats clients: the flat shared/pb
+// layout exposed the regular and ByMerchant methods on a single client.
+type OrderStatsServiceClient interface {
+	orderspb.OrderStatsServiceClient
+	orderspb.OrderStatsByMerchantServiceClient
+}
+
+type orderStatsCombined struct {
+	orderspb.OrderStatsServiceClient
+	orderspb.OrderStatsByMerchantServiceClient
+}
+
+func NewOrderStatsServiceClient(cc grpc.ClientConnInterface) OrderStatsServiceClient {
+	return orderStatsCombined{
+		OrderStatsServiceClient:           orderspb.NewOrderStatsServiceClient(cc),
+		OrderStatsByMerchantServiceClient: orderspb.NewOrderStatsByMerchantServiceClient(cc),
+	}
+}
+
+type UpdateOrderItemRequest = orderspb.UpdateOrderItemRequest
+type UpdateOrderRequest = orderspb.UpdateOrderRequest
+
+// productspb
+type CreateProductRequest = productspb.CreateProductRequest
+type FindAllProductCategoryRequest = productspb.FindAllProductCategoryRequest
+type FindAllProductMerchantRequest = productspb.FindAllProductMerchantRequest
+type FindAllProductRequest = productspb.FindAllProductRequest
+type FindByIdProductRequest = productspb.FindByIdProductRequest
+
+var NewProductCommandServiceClient = productspb.NewProductCommandServiceClient
+var NewProductQueryServiceClient = productspb.NewProductQueryServiceClient
+
+type ProductCommandServiceClient = productspb.ProductCommandServiceClient
+type ProductQueryServiceClient = productspb.ProductQueryServiceClient
+type UpdateProductRequest = productspb.UpdateProductRequest
+
+// reviewspb
+type CreateReviewRequest = reviewspb.CreateReviewRequest
+type FindAllReviewMerchantRequest = reviewspb.FindAllReviewMerchantRequest
+type FindAllReviewProductRequest = reviewspb.FindAllReviewProductRequest
+type FindAllReviewRequest = reviewspb.FindAllReviewRequest
+type FindByIdReviewRequest = reviewspb.FindByIdReviewRequest
+
+var NewReviewCommandServiceClient = reviewspb.NewReviewCommandServiceClient
+var NewReviewQueryServiceClient = reviewspb.NewReviewQueryServiceClient
+
+type ReviewCommandServiceClient = reviewspb.ReviewCommandServiceClient
+type ReviewQueryServiceClient = reviewspb.ReviewQueryServiceClient
+type UpdateReviewRequest = reviewspb.UpdateReviewRequest
+
+// reviews_detailpb
+type CreateReviewDetailRequest = reviews_detailpb.CreateReviewDetailRequest
+type FindByIdReviewDetailRequest = reviews_detailpb.FindByIdReviewDetailRequest
+
+var NewReviewDetailCommandServiceClient = reviews_detailpb.NewReviewDetailCommandServiceClient
+var NewReviewDetailQueryServiceClient = reviews_detailpb.NewReviewDetailQueryServiceClient
+
+type ReviewDetailCommandServiceClient = reviews_detailpb.ReviewDetailCommandServiceClient
+type ReviewDetailQueryServiceClient = reviews_detailpb.ReviewDetailQueryServiceClient
+type UpdateReviewDetailRequest = reviews_detailpb.UpdateReviewDetailRequest
+
+// rolespb
+type CreateRoleRequest = rolespb.CreateRoleRequest
+type FindAllRoleRequest = rolespb.FindAllRoleRequest
+type FindByIdRoleRequest = rolespb.FindByIdRoleRequest
+type FindByIdUserRoleRequest = rolespb.FindByIdUserRoleRequest
+
+var NewRoleCommandServiceClient = rolespb.NewRoleCommandServiceClient
+var NewRoleQueryServiceClient = rolespb.NewRoleQueryServiceClient
+
+type RoleCommandServiceClient = rolespb.RoleCommandServiceClient
+type RoleQueryServiceClient = rolespb.RoleQueryServiceClient
+type UpdateRoleRequest = rolespb.UpdateRoleRequest
+
+// shipping_addressespb
+type CreateShippingAddressRequest = shipping_addressespb.CreateShippingAddressRequest
+type FindAllShippingRequest = shipping_addressespb.FindAllShippingRequest
+type FindByIdShippingRequest = shipping_addressespb.FindByIdShippingRequest
+
+var NewShippingCommandServiceClient = shipping_addressespb.NewShippingCommandServiceClient
+var NewShippingQueryServiceClient = shipping_addressespb.NewShippingQueryServiceClient
+
+type ShippingCommandServiceClient = shipping_addressespb.ShippingCommandServiceClient
+type ShippingQueryServiceClient = shipping_addressespb.ShippingQueryServiceClient
+type UpdateShippingAddressRequest = shipping_addressespb.UpdateShippingAddressRequest
+
+// sliderspb
+type CreateSliderRequest = sliderspb.CreateSliderRequest
+type FindAllSliderRequest = sliderspb.FindAllSliderRequest
+type FindByIdSliderRequest = sliderspb.FindByIdSliderRequest
+
+var NewSliderCommandServiceClient = sliderspb.NewSliderCommandServiceClient
+var NewSliderQueryServiceClient = sliderspb.NewSliderQueryServiceClient
+
+type SliderCommandServiceClient = sliderspb.SliderCommandServiceClient
+type SliderQueryServiceClient = sliderspb.SliderQueryServiceClient
+type UpdateSliderRequest = sliderspb.UpdateSliderRequest
+
+// transactionspb
+type CreateTransactionRequest = transactionspb.CreateTransactionRequest
+type FindAllTransactionByMerchantRequest = transactionspb.FindAllTransactionByMerchantRequest
+type FindAllTransactionRequest = transactionspb.FindAllTransactionRequest
+type FindByIdTransactionRequest = transactionspb.FindByIdTransactionRequest
+type MonthAmountTransactionMerchantRequest = transactionspb.MonthAmountTransactionMerchantRequest
+type MonthAmountTransactionRequest = transactionspb.MonthAmountTransactionRequest
+type MonthMethodTransactionMerchantRequest = transactionspb.MonthMethodTransactionMerchantRequest
+type MonthMethodTransactionRequest = transactionspb.MonthMethodTransactionRequest
+
+var NewTransactionCommandServiceClient = transactionspb.NewTransactionCommandServiceClient
+var NewTransactionQueryServiceClient = transactionspb.NewTransactionQueryServiceClient
+var NewTransactionStatsByMerchantServiceClient = transactionspb.NewTransactionStatsByMerchantServiceClient
+var NewTransactionStatsServiceClient = transactionspb.NewTransactionStatsServiceClient
+
+type TransactionCommandServiceClient = transactionspb.TransactionCommandServiceClient
+type TransactionQueryServiceClient = transactionspb.TransactionQueryServiceClient
+type TransactionStatsByMerchantServiceClient = transactionspb.TransactionStatsByMerchantServiceClient
+type TransactionStatsServiceClient = transactionspb.TransactionStatsServiceClient
+type UpdateTransactionRequest = transactionspb.UpdateTransactionRequest
+type YearAmountTransactionMerchantRequest = transactionspb.YearAmountTransactionMerchantRequest
+type YearAmountTransactionRequest = transactionspb.YearAmountTransactionRequest
+type YearMethodTransactionMerchantRequest = transactionspb.YearMethodTransactionMerchantRequest
+type YearMethodTransactionRequest = transactionspb.YearMethodTransactionRequest
+
+// userspb
+type CreateUserRequest = userspb.CreateUserRequest
+type FindAllUserRequest = userspb.FindAllUserRequest
+type FindByIdUserRequest = userspb.FindByIdUserRequest
+
+var NewUserCommandServiceClient = userspb.NewUserCommandServiceClient
+var NewUserQueryServiceClient = userspb.NewUserQueryServiceClient
+
+type UpdateUserRequest = userspb.UpdateUserRequest
+type UserCommandServiceClient = userspb.UserCommandServiceClient
+type UserQueryServiceClient = userspb.UserQueryServiceClient

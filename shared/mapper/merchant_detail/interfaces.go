@@ -1,0 +1,30 @@
+package merchantdetailapimapper
+
+import (
+	pbmerchants_detail "github.com/MamangRust/monolith-ecommerce-pb/merchants_detail"
+	"github.com/MamangRust/monolith-ecommerce-shared/domain/response"
+)
+
+type MerchantDetailBaseResponseMapper interface {
+	ToResponseMerchantDetail(merchant *pbmerchants_detail.MerchantDetailResponse) *response.MerchantDetailResponse
+	ToResponseMerchantDetailRelation(merchant *pbmerchants_detail.MerchantDetailResponse) *response.MerchantDetailResponse
+	ToResponsesMerchantDetail(merchants []*pbmerchants_detail.MerchantDetailResponse) []*response.MerchantDetailResponse
+}
+
+type MerchantDetailQueryResponseMapper interface {
+	MerchantDetailBaseResponseMapper
+	ToApiResponseMerchantDetail(pbResponse *pbmerchants_detail.ApiResponseMerchantDetail) *response.ApiResponseMerchantDetail
+	ToApiResponseMerchantDetailRelation(pbResponse *pbmerchants_detail.ApiResponseMerchantDetail) *response.ApiResponseMerchantDetailRelation
+	ToApiResponsesMerchantDetail(pbResponse *pbmerchants_detail.ApiResponsesMerchantDetail) *response.ApiResponsesMerchantDetail
+	ToApiResponsePaginationMerchantDetail(pbResponse *pbmerchants_detail.ApiResponsePaginationMerchantDetail) *response.ApiResponsePaginationMerchantDetail
+	ToApiResponsePaginationMerchantDetailDeleteAt(pbResponse *pbmerchants_detail.ApiResponsePaginationMerchantDetailDeleteAt) *response.ApiResponsePaginationMerchantDetailDeleteAt
+}
+
+type MerchantDetailCommandResponseMapper interface {
+	MerchantDetailBaseResponseMapper
+	ToApiResponseMerchantDetail(pbResponse *pbmerchants_detail.ApiResponseMerchantDetail) *response.ApiResponseMerchantDetail
+	ToResponseMerchantDetailDeleteAt(merchant *pbmerchants_detail.MerchantDetailResponseDeleteAt) *response.MerchantDetailResponseDeleteAt
+	ToResponsesMerchantDetailDeleteAt(merchants []*pbmerchants_detail.MerchantDetailResponseDeleteAt) []*response.MerchantDetailResponseDeleteAt
+	ToApiResponseMerchantDetailDeleteAt(pbResponse *pbmerchants_detail.ApiResponseMerchantDetailDeleteAt) *response.ApiResponseMerchantDetailDeleteAt
+	ToApiResponsePaginationMerchantDetailDeleteAt(pbResponse *pbmerchants_detail.ApiResponsePaginationMerchantDetailDeleteAt) *response.ApiResponsePaginationMerchantDetailDeleteAt
+}
